@@ -1,12 +1,10 @@
 ﻿using Crm.Website.Models;
-using Microsoft.EntityFrameworkCore;v
+using Microsoft.EntityFrameworkCore;
 namespace DAL.Data_Storage.Classes
-
 {
     public class CrmDbContext : DbContext
     {
-        public CrmDbContext(DbContextOptions<CrmDbContext> options)
-            : base(options)
+        public CrmDbContext()
         {
 
         }
@@ -21,8 +19,18 @@ namespace DAL.Data_Storage.Classes
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "server=DESKTOP-4HKLI08\\zzrxm;database=Example;trusted_connection=true;TrustServerCertificate=true";
+            string connectionString = "Server=DESKTOP-4HKLI08\\MSSQLSERVER01;Database=Example;Trusted_Connection=true;TrustServerCertificate=true";
             optionsBuilder.UseSqlServer(connectionString);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Group>()
+                .Property(g => g.Price)
+                .HasColumnType("decimal(18, 2)"); // Adjust precision and scale according to your needs
+
+            // Other configurations...
+        }
+
     }
 }
