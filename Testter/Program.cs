@@ -12,39 +12,28 @@ namespace Testter
 
             CrmRepository<Student> dataBase = new CrmRepository<Student>(db);
 
-         
-           /* Student student = new Student()
+            /*
+                        Student student = new Student()
+                        {
+
+                            Id = Guid.Parse("95d88143-6ca6-442f-8ed8-5c6c43ec47c4"),
+                            Name = "new test",
+                            LastName = "new test",
+                            Email = "new test",
+                            MiddleName =  "new test",
+                        };
+
+                        await dataBase.Update(student);*/
+            //Student student = await dataBase.GetAsync(p => p.Id  == Guid.Parse("95d88143-6ca6-442f-8ed8-5c6c43ec47c4"));
+            // dataBase.Delete(student) ;
+            var all = await dataBase.GetAllStudents();
+
+            foreach (var student in all)
             {
-
-                Id = Guid.Parse("95d88143-6ca6-442f-8ed8-5c6c43ec47c4"),
-                Name = "Test",
-                LastName = "Test",
-                Email = "Test",
-                MiddeName = "Test",
-            };
-
-            await dataBase.Update(student);*/
+                Console.WriteLine($"{student.Name} - {student.Id}");
+            }
 
 
-            //Guid Id = obj.Id;
-
-
-            //obj.Name = "Johnny";
-            //await dataBase.Update(obj);
-
-            // var result = await dataBase.AddAsync(new Student()
-            // {
-            //    Name = "Kamron",
-            //    BirthDate = DateTime.Now,
-            //    Email = "Kamron2023@gmail.com",
-            //    Gender = Gender.Male,
-            //    Id = Guid.NewGuid(),
-            //    LastName = "Zokirovich",
-            //    MiddeName = "Bobur o'g'li",
-            //    PhoneNumber = "1234567890",
-            // });
-
-            //  Console.WriteLine(result);
 
         }
     }
