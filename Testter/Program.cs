@@ -1,6 +1,7 @@
 ﻿using Crm.Website.Models;
 using DAL.Data_Storage.Classes;
 using DAL.Data_Storage.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Testter
 {
@@ -26,13 +27,16 @@ namespace Testter
                         await dataBase.Update(student);*/
             //Student student = await dataBase.GetAsync(p => p.Id  == Guid.Parse("95d88143-6ca6-442f-8ed8-5c6c43ec47c4"));
             // dataBase.Delete(student) ;
-            var all = await dataBase.GetAllStudents();
+            CrmDbContext crmDb = new CrmDbContext();
 
+
+
+            var all = await db.Students.ToListAsync();
+           
             foreach (var student in all)
             {
-                Console.WriteLine($"{student.Name} - {student.Id}");
+                Console.WriteLine(student.LastName);
             }
-
 
 
         }

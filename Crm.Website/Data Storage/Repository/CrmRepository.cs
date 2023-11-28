@@ -2,8 +2,8 @@
 using DAL.Data_Storage.Classes;
 using DAL.Data_Storage.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 
 namespace DAL.Data_Storage.Repository
 {
@@ -17,22 +17,23 @@ namespace DAL.Data_Storage.Repository
             this.dbContext = dbContext;
             this.dbSet = dbContext.Set<TSource>();
         }
-        
-       
+
+
 
         public async ValueTask<TSource> AddAsync(TSource entity)
         {
-            var entry = await dbSet.AddAsync(entity);
+            var entr = await dbContext.AddAsync(entity);
+
 
             await dbContext.SaveChangesAsync();
 
-            return entry.Entity;
+            return entr.Entity;
         }
 
         public async void Delete(TSource entity)
         {
             dbSet.Remove(entity);
-            await  dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         public IQueryable<TSource> GetAll(Expression<Func<TSource, bool>> expression = null, string[] includes = null, bool isTracking = true)
@@ -54,8 +55,8 @@ namespace DAL.Data_Storage.Repository
         //     => await GetAll(expression, Includes);
 
         public async Task<TSource> Update(TSource entity)
-        { 
-           var result =  dbSet.Update(entity);
+        {
+            var result = dbSet.Update(entity);
             await dbContext.SaveChangesAsync();
             return result.Entity;
         }
@@ -66,7 +67,7 @@ namespace DAL.Data_Storage.Repository
 
         public async Task<IEnumerable<Student>> GetAllStudents()
        => await dbContext.Students.ToListAsync();
-        
+
 
         public async ValueTask<TSource> GetAsync(Expression<Func<TSource, bool>> expression)
         => await dbSet.FirstOrDefaultAsync(expression);

@@ -7,7 +7,7 @@ namespace DAL.Data_Storage.Interfaces
         public ValueTask<TSource> GetAsync(Expression<Func<TSource, bool>> expression, string[] Includes, bool isTracking);
 
 
-        public ValueTask<TSource> GetAsync(Expression<Func<TSource,bool>> expression);
+        public ValueTask<TSource> GetAsync(Expression<Func<TSource, bool>> expression);
 
         public ValueTask<TSource> AddAsync(TSource entity);
 

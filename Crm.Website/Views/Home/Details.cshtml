@@ -1,4 +1,13 @@
 ﻿@model Student
-<b style="-webkit-margin-bottom-collapse">
-    Detailed information about student
-</b>
+
+@using  (Html.BeginForm()){
+
+@Html.EditorFor(p => p.PhoneNumber)
+@Html.ValidationMessageFor(m => m.PhoneNumber, "Please enter student phone number.", new { @class = "text-danger" })
+<div class="form-control-color"> 
+    <div class="row-cols-xxl-auto col-10">
+        <input type="submit" value="Save" class="btn-dark btn-default">
+    </div>
+</div>
+}
+@Html.ActionLink("Go back to home page","Index")

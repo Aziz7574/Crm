@@ -19,14 +19,17 @@ namespace Crm.Website.Controllers
         }
 
 
+         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var all = await db.GetAllStudents();    
+            //  throw new NullReferenceException();
+            var all = await db.GetAllStudents();
+                
             return View(all.OrderBy(p => p.Name).ThenBy(p => p.LastName).ThenBy(p => p.Email));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -34,28 +37,35 @@ namespace Crm.Website.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Student student)
         {
-            var result = await db.AddAsync(student);
 
-            if(result.Id != null)
-               return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                var result = await db.AddAsync(student);
+                return RedirectToAction("Index");
+            }
             else
-                return View(new ErrorViewModel());
+                return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-
             var student = await db.GetAsync(p => p.Id == id);
-
             return View(student);
         }
 
         [HttpPost]
         public async Task<ActionResult> Edit(Student std)
         {
-            await db.Update(std);
-            return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                await db.Update(std);
+                return RedirectToAction("Index");
+            }
+            
+            return View();
             //   return RedirectToAction("Index");
         }
 
@@ -84,6 +94,14 @@ namespace Crm.Website.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            Student student = await db.GetAsync(p => p.Id == id);
+            return View(student);
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -92,10 +110,46 @@ namespace Crm.Website.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
 
+        //protected override void OnException(ExceptionContext filterContext)
+        //{
+        //    filterContext.ExceptionHandled = true;
 
+        //    //Log the error!!
+
+        //    //Redirect to action
+        //    filterContext.Result = RedirectToAction("Error", "InternalError");
+
+        //    // OR return specific view
+        //    filterContext.Result = new ViewResult
+        //    {
+        //        ViewName = "~/Views/Error/InternalError.cshtml"
+        //    };
+        //    return;
+        //}
+
+
+
+        //protected override void OnException(ExceptionContext filterContext)
+        //{
+        //    filterContext.ExceptionHandled = true;
+
+        //    //Log the error!!      
+
+        //    //Redirect to action
+        //    filterContext.Result = RedirectToAction("Error", "InternalError");
+
+        //    // OR return specific view
+        //    filterContext.Result = new ViewResult
+        //    {
+        //        ViewName = "~/Views/Error/InternalError.cshtml"
+        //    };
+
+
+        //}
     }
 }

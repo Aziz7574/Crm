@@ -14,6 +14,9 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                 @*    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id) *@
+
                     <div class="form-group text-center">
                         <img id="ProfilePicturePreview" class="border-info rounded-circle" style="max-width: 150px" />
                     </div>
@@ -28,9 +31,9 @@
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="MiddeName" class="control-label"></label>
-                        <input asp-for="MiddeName" class="form-control" />
-                        <span asp-validation-for="MiddeName" class="text-danger"></span>
+                        <label asp-for="MiddleName" class="control-label"></label>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Gender" class="control-label"></label>
